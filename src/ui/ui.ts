@@ -1,5 +1,4 @@
 
-//@ts-ignore
 import SimpleBar from 'simplebar';
 import { randInt } from './common/common';
 
