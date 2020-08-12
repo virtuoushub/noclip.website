@@ -11,9 +11,6 @@ module.exports = merge(common, {
         test: /\.ts$/,
         loader: 'ts-loader',
         exclude: /node_modules/,
-        options: {
-          transpileOnly: true,
-        }
       },
     ],
   },

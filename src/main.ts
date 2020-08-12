@@ -91,6 +91,7 @@ import { mat4 } from 'gl-matrix';
 import { GfxDevice } from './gfx/platform/GfxPlatform';
 
 import { NUI } from './ui/ui';
+import InputManager from './InputManager';
 
 const sceneGroups = [
     "Wii",
@@ -215,6 +216,7 @@ class SceneLoadContext implements LocationLoadContext {
     public uiContainer: HTMLElement;
     public legacyUI: UI;
     public scene: SceneGfxBase | null = null;
+    public inputManager: InputManager;
 
     public onabort: ((context: LocationLoadContext) => void) | null = null;
 
@@ -225,6 +227,7 @@ class SceneLoadContext implements LocationLoadContext {
         this.dataShare = this.main.dataShare;
         this.dataFetcher = this.main.dataFetcher;
         this.legacyUI = this.main.ui;
+        this.inputManager = this.main.viewer.inputManager;
 
         this.uiContainer = document.createElement('div');
     }

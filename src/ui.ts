@@ -16,6 +16,8 @@ import logoURL from './assets/logo.png';
 import { LightweightOverlay } from './AAA_NewUI/LightweightOverlay';
 import { DebugFloaterHolder } from './DebugFloaters';
 import { LocationBase } from './AAA_NewUI/SceneBase2';
+import { CameraAnimationManager, Keyframe, LinearEaseType } from './CameraAnimationManager';
+import { DraggingMode } from './InputManager';
 
 export const HIGHLIGHT_COLOR = 'rgb(210, 30, 30)';
 export const COOL_BLUE_COLOR = 'rgb(20, 105, 215)';

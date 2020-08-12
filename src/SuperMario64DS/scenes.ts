@@ -528,7 +528,7 @@ class SM64DSRenderer implements Viewer.SceneGfx {
 
     private setCurrentScenario(index: number): void {
         if (this.currentScenarioIndex === index)
-        return;
+            return;
 
         this.currentScenarioIndex = index;
 
