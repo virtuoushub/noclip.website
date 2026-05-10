@@ -5,6 +5,7 @@ import { readdir } from 'node:fs';
 import type { ServerResponse } from 'node:http';
 import parseUrl from 'parseurl';
 import send from 'send';
+import { config as loadEnv } from 'dotenv';
 
 let gitCommit = '(unknown)';
 try {
@@ -12,6 +13,10 @@ try {
 } catch (e) {
   console.warn('Failed to fetch Git commit hash', e);
 }
+
+// Load environment variables from .env file
+loadEnv();
+const publicStorageUrl = process.env.PUBLIC_STORAGE_URL || '';
 
 export default defineConfig({
   source: {
@@ -26,6 +31,7 @@ export default defineConfig({
     },
     define: {
       __COMMIT_HASH: JSON.stringify(gitCommit),
+      'import.meta.env.PUBLIC_STORAGE_URL': JSON.stringify(publicStorageUrl),
     },
   },
   html: {
