@@ -17,6 +17,7 @@ try {
 // Load environment variables from .env file
 loadEnv();
 const publicStorageUrl = process.env.PUBLIC_STORAGE_URL || '';
+const typecheckMemoryLimit = Number.parseInt(process.env.TSCHECK_MEMORY_LIMIT ?? '4096', 10);
 
 export default defineConfig({
   source: {
@@ -52,7 +53,18 @@ export default defineConfig({
     ],
   },
   // Enable async TypeScript type checking.
-  plugins: [pluginTypeCheck()],
+  plugins: [
+    pluginTypeCheck({
+      tsCheckerOptions: {
+        typescript: {
+          // Lower default memory for dev containers; can be overridden via TSCHECK_MEMORY_LIMIT.
+          memoryLimit: Number.isFinite(typecheckMemoryLimit)
+            ? typecheckMemoryLimit
+            : 4096,
+        },
+      },
+    }),
+  ],
   tools: {
     rspack(config) {
       // Some CJS dependencies still reference __dirname in web builds.
