@@ -6,5 +6,10 @@
 				"GitHub.vscode-github-actions"
 			]
 		}
+	},
+	"portsAttributes": {
+		"3000": {
+			"label": "local wireit"
+		}
 	}
 }

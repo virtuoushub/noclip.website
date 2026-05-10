@@ -35,7 +35,8 @@ class DataFetcherRequest {
     private response: Response | null = null;
     private abortController = new AbortController();
     private resolve: (slice: NamedArrayBufferSlice) => void;
-    private reject: (e: Error | null) => void;
+    private reject: (e: Error) => void;
+    private fetchError: unknown = null;
     private retriesLeft = 2;
 
     constructor(private cache: Cache | null, public url: string, private options: DataFetcherOptions) {
@@ -98,8 +99,17 @@ class DataFetcherRequest {
             this.start();
             return true;
         } else {
-            console.error(`DataFetcherRequest: Received non-success status code ${status} when fetching file ${this.url}.`);
-            this.reject(null);
+            let error: Error;
+            if (this.fetchError instanceof Error) {
+                error = this.fetchError;
+            } else if (this.fetchError !== null) {
+                error = new Error(`DataFetcherRequest: Failed to fetch ${this.url}: ${String(this.fetchError)}`);
+            } else {
+                error = new Error(`DataFetcherRequest: Received non-success status code ${status} when fetching file ${this.url}.`);
+            }
+
+            console.error(error.message);
+            this.reject(error);
             this.done();
             return true;
         }
@@ -114,6 +124,7 @@ class DataFetcherRequest {
 
     public async start() {
         this.started = true;
+        this.fetchError = null;
 
         if (this.cache !== null) {
             const match = await this.cache.match(this.request).catch(error => {
@@ -131,7 +142,7 @@ class DataFetcherRequest {
         try {
             this.response = await fetch(this.request);
         } catch (e: unknown) {
-            // Error handling below.
+            this.fetchError = e;
         }
 
         if (this.resolveError())

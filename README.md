@@ -66,3 +66,8 @@ pnpm self-update
 corepack up
 rustup target add wasm32-unknown-unknown
 ```
+
+```sh
+# One-time install for the `cargo bin` helper used by the wasm build scripts.
+cargo install --path rust/tools/cargo-bin
+```
