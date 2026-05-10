@@ -47,7 +47,14 @@ export default defineConfig({
   // Enable async TypeScript type checking.
   plugins: [pluginTypeCheck()],
   tools: {
-    rspack(_config) {
+    rspack(config) {
+      // Some CJS dependencies still reference __dirname in web builds.
+      // Use plain mock behavior (without warning) instead of warn-mock.
+      if (config.node && typeof config.node === 'object') {
+        config.node.__dirname = 'mock';
+      } else {
+        config.node = { __dirname: 'mock' };
+      }
     },
     // Disable standards-compliant class field transforms.
     swc: {
