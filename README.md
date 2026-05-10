@@ -57,3 +57,12 @@ All icons you see are from [The Noun Project](https://thenounproject.com/), used
 * Redo by Numero Uno
 * Zoom In by Tanvir Islam
 * Zoom Out by Tanvir Islam
+
+---
+
+```sh
+curl https://sh.rustup.rs -sSf | sh
+pnpm self-update
+corepack up
+rustup target add wasm32-unknown-unknown
+```
